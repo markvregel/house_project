@@ -1,15 +1,13 @@
-source("pre-processing.R")
-source("downloadlist.R")
+source("Functions/pre-processing.R")
+source("Functions/downloadlist.R")
 library(rgdal)
 library(maptools)
 
-dir.create('downloads',showWarnings = F)
-dir.create('rawdata',showWarnings = F)
-dir.create('data',showWarnings = F)
-OSM_F <-'rawdata/OSM/'
-CBS_square_F <- 'rawdata/CBS_square/'
-municipalities_F <- 'rawdata/municipalities/'
-provinces_F <- 'rawdata/provinces/'
+
+OSM_F <-'Rawdata/OSM/'
+CBS_square_F <- 'Rawdata/CBS_square/'
+municipalities_F <- 'Rawdata/municipalities/'
+provinces_F <- 'Rawdata/provinces/'
 
 
 dir.create(OSM_F,showWarnings = F)
@@ -28,17 +26,17 @@ provincesURL = 'www.imergis.nl/shp/Bestuurlijkegrenzen-provincies-actueel-shp.zi
 URLlist = list(list('OSM',OSMURL),list('CBS_square',CBS_squareURL),list('municipalities',municipalitiesURL),list('provinces',provincesURL))
 
 # dowload data
-inputZip <- list.files(path='downloads', pattern= '^.*\\.zip$')
+inputZip <- list.files(path='Downloads', pattern= '^.*\\.zip$')
 if (length(inputZip) == 0){ ##only download when not alrady downloaded (safes time to debug the whole script)
 lapply(URLlist, downloadlist)
 }
 
 # Unzip data
 
-unzip('downloads/OSM.zip', exdir=OSM_F)
-unzip('downloads/CBS_square.zip', exdir=CBS_square_F)
-unzip('downloads/municipalities.zip', exdir=municipalities_F)
-unzip('downloads/provinces.zip', exdir=provinces_F)
+unzip('Downloads/OSM.zip', exdir=OSM_F)
+unzip('Downloads/CBS_square.zip', exdir=CBS_square_F)
+unzip('Downloads/municipalities.zip', exdir=municipalities_F)
+unzip('Downloads/provinces.zip', exdir=provinces_F)
 
 # define projections
 
@@ -46,15 +44,15 @@ latlong = "+init=epsg:4326"
 RD_new = "+init=epsg:28992"
 
 # get shape of gelderland and store as shapefile
-provinces <- readShapeSpatial("rawdata/provinces/TopGrenzen-prov-actueel.shp")
+provinces <- readShapeSpatial("Rawdata/provinces/TopGrenzen-prov-actueel.shp")
 proj4string(provinces)= CRS(RD_new)
 Gelderland = subset(provinces,Provincien=='Gelderland')
-writeOGR(Gelderland, './data', 'Gelderland', driver="ESRI Shapefile", overwrite_layer=TRUE)
+writeOGR(Gelderland, './Data', 'Gelderland', driver="ESRI Shapefile", overwrite_layer=TRUE)
 
 # re-project, clip and save OSM shapefiles
 shplist_OSM = list.files(path=OSM_F, pattern= '^.*\\.shp$')[c(3:5,7)]
-lapply(shplist_OSM, function(x) reproject_convert_OSM_shp(paste0('rawdata/OSM/',x),name=substr(x,1,nchar(x)-4),clip=Gelderland))
+lapply(shplist_OSM, function(x) reproject_convert_OSM_shp(paste0('Rawdata/OSM/',x),name=substr(x,1,nchar(x)-4),clip=Gelderland))
 
 # clip and save municipalities shapefiles
-shplist_mun = list.files(path='./rawdata/municipalities/uitvoer_shape', pattern= '^.*\\.shp$')
-lapply(shplist_mun, function(x) clip_save_mun_shp(shp=paste0('rawdata/municipalities/uitvoer_shape/',x),clip=Gelderland,name=substr(x,1,nchar(x)-4)))
+shplist_mun = list.files(path='./Rawdata/municipalities/uitvoer_shape', pattern= '^.*\\.shp$')
+lapply(shplist_mun, function(x) clip_save_mun_shp(shp=paste0('Rawdata/municipalities/uitvoer_shape/',x),clip=Gelderland,name=substr(x,1,nchar(x)-4)))

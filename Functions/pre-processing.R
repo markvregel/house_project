@@ -13,7 +13,7 @@ reproject_convert_OSM_shp <- function(shp,name,clip) {
 	proj4string(vector) = CRS(latlong)
 	vector_RD <- spTransform(vector,CRS(RD_new))
 	result = vector_RD[clip,]
-	writeOGR(result, './data',paste0(name,"_OSM"), driver="ESRI Shapefile", overwrite_layer=TRUE)
+	writeOGR(result, './Data',paste0(name,"_OSM"), driver="ESRI Shapefile", overwrite_layer=TRUE)
 }
 
 clip_save_mun_shp <- function(shp,clip,name) {
@@ -26,5 +26,5 @@ clip_save_mun_shp <- function(shp,clip,name) {
 	vector = readShapeSpatial(shp)
 	proj4string(vector) = CRS(RD_new)
 	result = vector[clip,]
-	writeOGR(result, './data',name, driver="ESRI Shapefile", overwrite_layer=TRUE)
+	writeOGR(result, './Data',name, driver="ESRI Shapefile", overwrite_layer=TRUE)
 }
