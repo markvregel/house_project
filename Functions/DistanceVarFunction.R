@@ -7,10 +7,7 @@ DistVarFunction <- function(mypoints, mytype, RasterTemp){
 #Select variable
 SelectedType <- subset(mypoints, type == mytype)
 
-#Make an empty raster with value 0
-EmptyRas <- setValues(raster(RasterTemp), 0)
-
 #Distance grid
-DistanceVar <- distanceFromPoints(EmptyRas, SelectedType)
+DistanceVar <- distanceFromPoints(RasterTemp, SelectedType)
 return(DistanceVar)
 }
