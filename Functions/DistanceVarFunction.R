@@ -9,5 +9,7 @@ SelectedType <- subset(mypoints, type == mytype)
 
 #Distance grid
 DistanceVar <- distanceFromPoints(RasterTemp, SelectedType)
+
+
 return(DistanceVar)
 }
