@@ -1,19 +1,23 @@
 source("Functions/pre-processing.R")
 source("Functions/downloadlist.R")
+source("Functions/CreateRasterTemp.R")
 library(rgdal)
 library(maptools)
+library(raster)
 
 
 OSM_F <-'Rawdata/OSM/'
 CBS_square_F <- 'Rawdata/CBS_square/'
 municipalities_F <- 'Rawdata/municipalities/'
 provinces_F <- 'Rawdata/provinces/'
+NDVI_F <- 'Rawdata/NDVI/'
 
 
 dir.create(OSM_F,showWarnings = F)
 dir.create(CBS_square_F,showWarnings = F)
 dir.create(municipalities_F,showWarnings = F)
 dir.create(provinces_F,showWarnings = F)
+dir.create(NDVI_F, showWarnings = F)
 # Download data -----------------------------------------------------------
 
 # deifne URLs
@@ -21,9 +25,12 @@ OSMURL = 'http://download.geofabrik.de/europe/netherlands-latest.shp.zip'
 CBS_squareURL = 'www.cbs.nl/nl-NL/menu/themas/dossiers/nederland-regionaal/links/2013-kaart-vierkanten-el.htm'
 municipalitiesURL = 'www.cbs.nl/nl-NL/menu/themas/dossiers/nederland-regionaal/links/wijk-en-buurtkaart-shape-2015.htm'
 provincesURL = 'www.imergis.nl/shp/Bestuurlijkegrenzen-provincies-actueel-shp.zip'
+NDVIURL <- "https://github.com/GeoScripting-WUR/VectorRaster/raw/gh-pages/data/MODIS.zip"
 
 # put in list
-URLlist = list(list('OSM',OSMURL),list('CBS_square',CBS_squareURL),list('municipalities',municipalitiesURL),list('provinces',provincesURL))
+URLlist = list(list('NDVI',NDVIURL),list('OSM',OSMURL),list('CBS_square',CBS_squareURL),list('municipalities',municipalitiesURL),list('provinces',provincesURL))
+
+URLlist = list(list('NDVI',NDVIURL),list('provinces',provincesURL))
 
 # dowload data
 inputZip <- list.files(path='Downloads', pattern= '^.*\\.zip$')
@@ -37,6 +44,7 @@ unzip('Downloads/OSM.zip', exdir=OSM_F)
 unzip('Downloads/CBS_square.zip', exdir=CBS_square_F)
 unzip('Downloads/municipalities.zip', exdir=municipalities_F)
 unzip('Downloads/provinces.zip', exdir=provinces_F)
+unzip('Downloads/NDVI.zip', exdir = NDVI_F)
 
 # define projections
 
@@ -48,6 +56,27 @@ provinces <- readShapeSpatial("Rawdata/provinces/TopGrenzen-prov-actueel.shp")
 proj4string(provinces)= CRS(RD_new)
 Gelderland = subset(provinces,Provincien=='Gelderland')
 writeOGR(Gelderland, './Data', 'Gelderland', driver="ESRI Shapefile", overwrite_layer=TRUE)
+
+#list the NDVI raster
+NDVIlist <- list.files(path=NDVI_F,pattern = '+.grd$', full.names=TRUE) 
+NDVI_12 <- stack(NDVIlist) #Stack the list
+
+#Project the stack to RD_new
+NDVI_RD <- projectRaster(NDVI_12, crs = RD_new)
+
+# Select and calculate NDVI mean of the year
+NDVI_mean <- calc(NDVI_RD,mean)
+
+#Crop and Mask the NDVI to Gelderland
+NDVIGelderland <- crop(NDVI_mean, Gelderland)
+NDVIGelderland <- mask(NDVIGelderland, Gelderland)
+
+#Make an empty raster and resample the NDVI to the empty raster
+RasterTemp <- CreateRasterTemp(Gelderland)
+NDVIGeld <- resample(NDVIGelderland, RasterTemp)
+
+#write the NDVI raster to data
+writeRaster(NDVIGeld, 'Data/NDVIGelderland.grd', overwrite = TRUE)
 
 # re-project, clip and save OSM shapefiles
 shplist_OSM = list.files(path=OSM_F, pattern= '^.*\\.shp$')[c(3:5,7)]
