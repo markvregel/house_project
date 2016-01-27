@@ -13,7 +13,7 @@ library(sp)
 library(leaflet)
 
 # source functions
-
+source('Functions/getData.R')
 source('Functions/ExecuteIndexes.R')
 
 # Create directories
@@ -28,6 +28,9 @@ for (i in dir_list)
 		dir.create(i)
 	} 
 }
+
+# get the data
+getData()
 
 # Set weights
 railway_weight <- 1

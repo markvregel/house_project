@@ -34,9 +34,7 @@ getData <- function(){
 	# put in list
 	URLlist = list(list('NDVI',NDVIURL),list('OSM',OSMURL),list('municipalities',municipalitiesURL),
 								 list('provinces',provincesURL),list('railways',railwaysURL),list('roads',roadsURL))
-	
-	URLlist = list(list('railways',railwaysURL),list('roads',roadsURL))
-	
+
 	# dowload data
 	inputZip <- list.files(path='Downloads', pattern= '^.*\\.zip$')
 	if (length(inputZip) == 0){ ##only download when not alrady downloaded (safes time to debug the whole script)
