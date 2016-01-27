@@ -1,4 +1,4 @@
-facilities_index() <- function() {
+facilities_index <- function() {
 	#' function that calcualtes the score of the facilities index
 	#' 
 	

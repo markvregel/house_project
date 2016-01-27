@@ -15,10 +15,10 @@ road_train_buffer <- function(){
 		download.file(railways_url, destfile="Data/railways.zip", method = "wget")
 		unzip("Data/railways.zip", exdir="Data")
 	}
-	if (length("Data/roads.zip") == 0){ 
-	roads_url <- "http://www.mapcruzin.com/download-shapefile/netherlands-roads-shape.zip"
-	download.file(roads_url, destfile="Data/roads.zip", method = "wget")
-	unzip("Data/roads.zip", exdir="Data")
+		if (length("Data/roads.zip") == 0){ 
+		roads_url <- "http://www.mapcruzin.com/download-shapefile/netherlands-roads-shape.zip"
+		download.file(roads_url, destfile="Data/roads.zip", method = "wget")
+		unzip("Data/roads.zip", exdir="Data")
 	}
 	# read data
 	railway <- readOGR("Data", "railways")

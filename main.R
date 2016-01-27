@@ -1,12 +1,19 @@
 ## Project Week 4 Geoscripting
 ## Jos Goris, Mark ten Vregelaar and Bob Houtkooper
 ## "I know where your house lives"
-## 29-01-2016
+## 28-01-2016
 
 # Import modules
- 
-# Set working directory 
+library(raster)
+library(rgdal)
+library(GISTools)
+library(maptools)
+library(rasterVis)
+library(sp)
 
+# source functions
+
+source('Functions/ExecuteIndexes.R')
 
 # Create directories
 data_dir = 'Data'
@@ -21,9 +28,11 @@ for (i in dir_list)
 	} 
 }
 
-# Set preferences and weights
-
 # Calculate indexes
+ExecuteIndexes()
+
+# Weights of indexes
+
 
 # Create raster
 

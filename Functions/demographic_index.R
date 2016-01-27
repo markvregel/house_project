@@ -12,16 +12,16 @@ demographic_index <- function(urban_boolean, urbanity_weight, children_boolean, 
   #'      Return:
   #'        	Result of the MCA; Raster with values representing the importance of the above mentioned demographic features
  
-	# import modules
+	# source functions
 	source("Functions/standardisation.R")
-	library(raster)
-	library(rgdal)
-	
+
+	# Read OSM data
 	OSM_data <- readOGR("Data", "Buurt_2015")
 	urbanity <- OSM_data[9]
 	children <- OSM_data[13]
 	elderly <- OSM_data[17]
 	
+	# Delete strange values
 	urbanity1 <- subset(urbanity, urbanity@data[,1] >= 1) 
 	children1 <- subset(children, children@data[,1] >= 0 & children@data[,1]<= 100)
 	elderly1 <- subset(elderly, elderly@data[,1] >= 0 & elderly@data[,1]<= 100)
@@ -55,8 +55,9 @@ demographic_index <- function(urban_boolean, urbanity_weight, children_boolean, 
 	children_result <- children_index * children_weight
 	elderly_result <- elderly_index * elderly_weight
 	Raster_demographic_features <- overlay(urbanity_result, children_result, elderly_result, fun=function(a,b,c){a+b+c})
+	demographic_index <- standardise(Raster_demographic_features)
 	
 	# return MCA based raster
-	return(Raster_demographic_features)
+	return(demographic_index)
 }
 
