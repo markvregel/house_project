@@ -12,11 +12,16 @@ inconvenience_index <- function(railway_weight,roads_weight){
 	# import modules
 	source('Functions/Road_Train_Buffer.R')
 	source('Functions/standardisation.R')
-	library(raster)
-	library(rgdal)
-	
+
 	## road_train_buffer() #not executed because of the largeness of the roads file; buffer data in Data map
 	gelderlandraster <- raster('Data/GelderlandRas.grd')
+	
+	#
+	buffertest <- 'roads_buffer.grd'
+	files <- list.files(path='Data')
+	if (!buffertest %in% files)	{ 
+		road_train_buffer()
+	}
 	
 	# load buffer data
 	railway_buffer1 = raster("./Data/railway_buffer")
