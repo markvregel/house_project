@@ -1,7 +1,8 @@
 PublicTrans_Index <- function(){
 	#' Create a raster with values depending on the distance to public transport
-	#' arg:
-	#' Return: RasterLayer with values between 0 and 1
+	#' 	
+	#' 		Return:
+	#' 				 PublicTransScore (raster)
 	
 	source("Functions/TrainStation.R")
 	source("Functions/busstations.R")

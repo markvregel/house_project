@@ -1,5 +1,9 @@
 Water_Index <- function(){
+	#' Makes a raster with scores close to the water up untill 3 km, after this distance every area scores the same
+	#' 			Returns:
+	#' 						WaterScore(raster)
 	
+	# Load the standardisation function and the water shapefile
 	source('Functions/standardisation.R')
 	water <- readOGR('Data','waterways_OSM')
 	
@@ -21,7 +25,8 @@ Water_Index <- function(){
 	#standardise the raster
 	WaterScore <- standardise(DisWater)
 	WaterScore <- 1-WaterScore
-	#Crop and Mask
+	
+	# Mask
 	WaterScore <- mask(WaterScore, gelderlandraster)
 	
 	#return the waterscore

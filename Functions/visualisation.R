@@ -1,4 +1,9 @@
 visualise_results <- function(subindex_stack,final_index,mun_index){
+	#' Visualizes the output rasters and the municipalities
+	#' 		Args:
+	#' 				The rasters of the subindexes
+	#' 				The final_index raster
+	#' 				The municipality vector
 	
 #'function that visialises the results
 #'		Arg:
