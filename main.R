@@ -74,6 +74,8 @@ Result_Output <- "Output/End_Score_Raster"
 writeRaster(x=End_score, filename=Result_Output, overwrite = TRUE)
 
 # Extract values from raster to municipality polygon
+Municipality_poly <- readOGR("Data", "gem_2015")
+Municipality_Scores <- Extract_Index_Scores(End_score, Municipality_poly)
 
 
 

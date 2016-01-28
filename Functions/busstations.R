@@ -1,12 +1,12 @@
 Bus_index <- function() {
 	#' function that calcualtes the score of the facilities index
-	#' 		return:
+	#' 		Returns:
 	#' 				A raster with the distances values depending on the distance from bus stations
 	
 	# Import the Distance value function
 	source("Functions/DistanceVarFunction.R")
 
-	# Read the shapefiles
+	# Read the shapefile and base raster
 	points <-readOGR('Data','points_OSM')
 	rasterTemp <- raster('Data/GelderlandRas.grd')
 	

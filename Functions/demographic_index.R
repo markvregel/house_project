@@ -1,7 +1,7 @@
 # create demographic index function
 demographic_index <- function(urban_boolean, urbanity_weight, children_boolean, children_weight, elderly_boolean, elderly_weight){
 	#' Create demographic index raster with a Multi-Criteria Analyses
-  #'      Arg:
+  #'      Args:
   #'          urban_boolean (boolean): True or False
   #'          urbanity_weight (int): population density weight (1-5)
   #'          children_boolean(boolean): True or False
