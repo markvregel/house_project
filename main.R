@@ -15,6 +15,8 @@ library(leaflet)
 # source functions
 source('Functions/getData.R')
 source('Functions/ExecuteIndexes.R')
+source('Functions/setvariables.R')
+source('Functions/')
 
 # Create directories
 data_dir = 'Data'
@@ -30,28 +32,33 @@ for (i in dir_list)
 }
 
 # get the data
-getData()
+files <- list.files(path='Data')
+if (length(files) == 0){ 
+	getData()
+}
 
 # Set weights
-railway_weight <- 1
-roads_weight <- 1 
-urban_boolean <- TRUE
-urbanity_weight <-1 
-children_boolean <-TRUE
-children_weight <-1 
-elderly_boolean <-TRUE
-elderly_weight <-1 
+OpenPythonGUI()
+weightlist <- SetVariables()
+railway_weight <- as.numeric(weightlist['railwayweight'])
+roads_weight <- as.numeric(weightlist['roadweight'])
+urban_boolean <- as.numeric(weightlist['urbanityboolean'])
+urbanity_weight <-as.numeric(weightlist['urbanityweight'])
+children_boolean <-as.numeric(weightlist['childrenboolean'])
+children_weight <-as.numeric(weightlist['childrenweight'])
+elderly_boolean <-as.numeric(weightlist['elderlyboolean'])
+elderly_weight <-as.numeric(weightlist['elderlyweight'])
 
 # Calculate indexes
 substack <- ExecuteIndexes()
 
 # Weights of indexes
-PT_weight <- 1
-inconvenience_weight <- 1
-demographic_weight <- 1
-facilities_weight <- 1
-water_weight <- 1
-NDVI_weight <- 1
+PT_weight <- as.numeric(weightlist['ptweight'])
+inconvenience_weight <- as.numeric(weightlist['inconvenienceweight'])
+demographic_weight <- as.numeric(weightlist['demographicweight'])
+facilities_weight <- as.numeric(weightlist['facilitiesweight'])
+water_weight <- as.numeric(weightlist['waterweight'])
+NDVI_weight <- as.numeric(weightlist['ndviweight'])
 
 # weight x index
 PT_result <- PT_weight * substack[[1]]

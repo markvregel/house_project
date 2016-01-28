@@ -25,6 +25,23 @@ clip_save_mun_shp <- function(shp,clip,name) {
 	#'			name(str): name of new output shapefile
 	vector = readShapeSpatial(shp)
 	proj4string(vector) = CRS(RD_new)
-	result = vector[clip,]
-	writeOGR(result, './Data',name, driver="ESRI Shapefile", overwrite_layer=TRUE)
+	vector <- gBuffer(vector, byid = TRUE, width = 0)
+	result <- gIntersection(vector, clip, byid=TRUE)
+	
+	overlay <- over(result, vector)
+	
+	### Match names
+	data_frame <- data.frame(id = getSpPPolygonsIDSlots(result))
+	row.names(data_frame) <- getSpPPolygonsIDSlots(result)
+	
+	### Make spatial polygon data frame
+	new_polygons <- SpatialPolygonsDataFrame(result, data=data_frame)
+	
+	### Assign values from overlay to dataframe
+	corrected_values <- cbind(overlay, new_polygons)
+	
+	### Create new data frame
+	resultSpdf <- SpatialPolygonsDataFrame(new_polygons, data=corrected_values)
+	
+	writeOGR(resultSpdf, './Data',name, driver="ESRI Shapefile", overwrite_layer=TRUE)
 }

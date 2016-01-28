@@ -35,6 +35,8 @@ getData <- function(){
 	URLlist = list(list('NDVI',NDVIURL),list('OSM',OSMURL),list('municipalities',municipalitiesURL),
 								 list('provinces',provincesURL),list('railways',railwaysURL),list('roads',roadsURL))
 
+	URLlist = list(list('municipalities',municipalitiesURL))
+	
 	# dowload data
 	inputZip <- list.files(path='Downloads', pattern= '^.*\\.zip$')
 	if (length(inputZip) == 0){ ##only download when not alrady downloaded (safes time to debug the whole script)
@@ -110,8 +112,8 @@ getData <- function(){
 	railway_G = railwayRD[Gelderland,]
 	
 	# write data
-	writeOGR(roadsRD, './Data', 'roads', driver="ESRI Shapefile", overwrite_layer=TRUE)
-	writeOGR(railwayRD, './Data', 'railways', driver="ESRI Shapefile", overwrite_layer=TRUE)
+	writeOGR(roads_G, './Data', 'roads', driver="ESRI Shapefile", overwrite_layer=TRUE)
+	writeOGR(railway_G, './Data', 'railways', driver="ESRI Shapefile", overwrite_layer=TRUE)
 	
 	## OSM
 	
@@ -124,4 +126,4 @@ getData <- function(){
 	# clip and save municipalities shapefiles
 	shplist_mun = list.files(path='./Rawdata/municipalities/uitvoer_shape', pattern= '^.*\\.shp$')
 	lapply(shplist_mun, function(x) clip_save_mun_shp(shp=paste0('Rawdata/municipalities/uitvoer_shape/',x),clip=Gelderland,name=substr(x,1,nchar(x)-4)))
-}
+	}

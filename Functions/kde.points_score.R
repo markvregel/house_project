@@ -1,6 +1,6 @@
 source("Functions/standardisation.R")
 
-kde.points_score <- function(mypoints, mytype, RasterTemp,bandwidth){
+kde.points_score <- function(mypoints, mytype, rasterTemp,bandwidth){
 	#' This function calculates a raster with density values based on kernel density estimate and
 	#' standardise the output to a raster with scores of 0 to 1 
 	#' Args:

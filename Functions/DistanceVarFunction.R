@@ -1,4 +1,4 @@
-DistVarFunction <- function(mypoints, mytype, RasterTemp){
+DistVarFunction <- function(mypoints, mytype, rasterTemp){
   #' This function makes a raster with distancevalues for a certain type
   #' mytype is a string or list of strings
   #' returns a raster with the score of the distance
@@ -8,7 +8,7 @@ DistVarFunction <- function(mypoints, mytype, RasterTemp){
 	SelectedType <- subset(mypoints, type == mytype)
 
 	#Distance grid
-	DistanceVar <- distanceFromPoints(RasterTemp, SelectedType)
+	DistanceVar <- distanceFromPoints(rasterTemp, SelectedType)
 
 	#Grid with scores
 	DistStand <- 1-standardise(mask(DistanceVar,rasterTemp))

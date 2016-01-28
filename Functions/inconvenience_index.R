@@ -16,6 +16,7 @@ inconvenience_index <- function(railway_weight,roads_weight){
 	library(rgdal)
 	
 	## road_train_buffer() #not executed because of the largeness of the roads file; buffer data in Data map
+	gelderlandraster <- raster('Data/GelderlandRas.grd')
 	
 	# load buffer data
 	railway_buffer1 = raster("./Data/railway_buffer")
@@ -23,7 +24,7 @@ inconvenience_index <- function(railway_weight,roads_weight){
 	
 	# No data cells get value 0
 	railway_buffer1[is.na(railway_buffer1)] <- 0
-	roads_buffer1[is.na(railway_buffer1)] <- 0
+	roads_buffer1[is.na(roads_buffer1)] <- 0
 	
 	# turn values around
 	railway_buffer1 <- 1 - railway_buffer1
@@ -35,6 +36,8 @@ inconvenience_index <- function(railway_weight,roads_weight){
 	
 	Raster_inconvenience_features <- overlay(railway_result, roads_result, fun=function(x,y){x+y}) 
 	inconvenience_index <- standardise(Raster_inconvenience_features)
+	
+	inconvenience_index <- mask(inconvenience_index, gelderlandraster)
 	
 	return(inconvenience_index)
 }
