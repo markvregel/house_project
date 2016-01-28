@@ -4,12 +4,6 @@ road_train_buffer <- function(){
 	#'      Return:
 	#'        Result of the MCA; Raster with values representing the importance of the above mentioned inconvenience features	
 	
-	# import modules
-	library(raster)
-	library(rgdal)
-	library(rgeos)
-
-
 	# read data
 	railwayRD <- readOGR("Data", "railways")
 	roadsRD <- readOGR("Data", "roads")
