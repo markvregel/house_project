@@ -64,7 +64,7 @@ getData <- function(){
 	# get shape of gelderland and store as shapefile
 	provinces <- readShapeSpatial("Rawdata/provinces/TopGrenzen-prov-actueel.shp")
 	proj4string(provinces)= CRS(RD_new)
-	Gelderland = subset(provinces,Provincien=='Gelderland')
+	Gelderland <- subset(provinces,Provincien=='Gelderland')
 	writeOGR(Gelderland, './Data', 'Gelderland', driver="ESRI Shapefile", overwrite_layer=TRUE)
 	
 	## raster template

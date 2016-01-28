@@ -16,7 +16,7 @@ library(leaflet)
 source('Functions/getData.R')
 source('Functions/ExecuteIndexes.R')
 source('Functions/setvariables.R')
-
+source('Functions/Extract_Index_Scores.R')
 
 # Create directories
 data_dir = 'Data'
@@ -69,4 +69,14 @@ NDVI_result <- NDVI_weight * substack[[5]]
 water_result <- water_weight * substack[[6]]
 	
 # Create raster
-End_score<- overlay(PT_result, inconvenience_result, facilities_result, demographic_result, NDVI_result, water_result, fun=function(a,b,c,d,e,f){a+b+c+d+e+f})
+End_score <- overlay(PT_result, inconvenience_result, facilities_result, demographic_result, NDVI_result, water_result, fun=function(a,b,c,d,e,f){a+b+c+d+e+f})
+Result_Output <- "Output/End_Score_Raster" 
+writeRaster(x=End_score, filename=Result_Output, overwrite = TRUE)
+
+# Extract values from raster to municipality polygon
+
+
+
+
+
+

@@ -1,4 +1,8 @@
 ExecuteIndexes <- function(){	
+	#' Executes all indexes and stacks them into a raster stack
+	#' 	Returns:
+	#' 		Total_Indexes(rasterstack)
+	
 	# Source functions
 	source('Functions/demographic_index.R')
 	source('Functions/facilities_index.R')
@@ -21,6 +25,7 @@ ExecuteIndexes <- function(){
 	Water <-Water_Index()
 	print('Water done!')
 	
+	# Stack the indexes
 	Stack_output <- "Output/TotalIndex.grd"
 	Total_Indexes <- stack(publicTrans, inconvenience, facilities, demographic, NDVI, Water)
 	names(Total_Indexes) <- c("Public Transport Index", "Inconvenience Index", "Facilities Index", "Demographic Index", "NDVI Index", "Water Index")
