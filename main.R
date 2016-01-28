@@ -84,7 +84,7 @@ Municipality_Scores <- Extract_Index_Scores(End_score, Municipality_poly)
 Municipality_Scores <- subset(Municipality_Scores, layer!="NaN")
 
 #save Municipality_Scores spatialdataframe
-writeOGR(Municipality_Scores, 'Output', 'MunicipalityScores', driver = 'ESRI Shapefile')
+writeOGR(Municipality_Scores, 'Output', 'MunicipalityScores', driver = 'ESRI Shapefile', overwrite_layer = TRUE)
 
 # Visualise results in leaflet
 visualise_results(substack,End_score,Municipality_Scores)
