@@ -17,7 +17,8 @@ source('Functions/getData.R')
 source('Functions/ExecuteIndexes.R')
 source('Functions/setvariables.R')
 source('Functions/Extract_Index_Scores.R')
-
+source('Functions/visualisation.R')
+source('Functions/standardisation.R')
 # Create directories
 data_dir = 'Data'
 output_dir = 'Output'
@@ -68,17 +69,20 @@ demographic_result <- demographic_weight * substack[[4]]
 NDVI_result <- NDVI_weight * substack[[5]]
 water_result <- water_weight * substack[[6]]
 	
-# Create raster
+# calculate final scores and save to outputs
 End_score <- overlay(PT_result, inconvenience_result, facilities_result, demographic_result, NDVI_result, water_result, fun=function(a,b,c,d,e,f){a+b+c+d+e+f})
 Result_Output <- "Output/End_Score_Raster" 
+End_score <- standardise(End_score)
 writeRaster(x=End_score, filename=Result_Output, overwrite = TRUE)
+
 
 # Extract values from raster to municipality polygon
 Municipality_poly <- readOGR("Data", "gem_2015")
 Municipality_Scores <- Extract_Index_Scores(End_score, Municipality_poly)
+# Remove nans
+Municipality_Scores <- subset(Municipality_Scores, layer!="NaN")
+#save Municipality_Scores spatialdataframe
+writeOGR(Municipality_Scores, 'Output', 'MunicipalityScores', driver = 'ESRI Shapefile')
 
-
-
-
-
-
+# Visualise results in leaflet
+visualise_results(substack,End_score,Municipality_Scores)
