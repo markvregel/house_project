@@ -16,7 +16,7 @@ library(leaflet)
 source('Functions/getData.R')
 source('Functions/ExecuteIndexes.R')
 source('Functions/setvariables.R')
-source('Functions/')
+
 
 # Create directories
 data_dir = 'Data'
