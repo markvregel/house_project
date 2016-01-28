@@ -79,12 +79,19 @@ writeRaster(x=End_score, filename=Result_Output, overwrite = TRUE)
 # Extract values from raster to municipality polygon
 Municipality_poly <- readOGR("Data", "gem_2015")
 Municipality_Scores <- Extract_Index_Scores(End_score, Municipality_poly)
+<<<<<<< HEAD
 
+=======
+>>>>>>> ae3776bbd57d11f855027982711889b2925598c0
 # Remove nans
 Municipality_Scores <- subset(Municipality_Scores, layer!="NaN")
+
 #save Municipality_Scores spatialdataframe
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> ae3776bbd57d11f855027982711889b2925598c0
 writeOGR(Municipality_Scores, 'Output', 'MunicipalityScores', driver = 'ESRI Shapefile')
 
 # Visualise results in leaflet
