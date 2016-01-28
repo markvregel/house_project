@@ -1,7 +1,11 @@
 DistVarFunction <- function(mypoints, mytype, rasterTemp){
   #' This function makes a raster with distancevalues for a certain type
-  #' mytype is a string or list of strings
-  #' returns a raster with the score of the distance
+  #' 		Args:
+  #' 			mypoints (Point shapefile): All OSM points of Gelderland 
+  #' 			mytype (string or list of strings): OSM points you want to select
+  #' 			rasterTemp (Raster): Empty base raster
+  #' 		Returns:
+  #' 		 DistStand(raster): Standardised raster of distance
   
 	source('Functions/standardisation.R')
 	#Select variable

@@ -1,9 +1,10 @@
 
 CreateRasterTemp <- function(Gelderland){
 	#' Create an empty raster with the extent of gelderland in the RD New projection
-	#' 			Arg:
+	#' 			Args:
 	#' 				Gelderland (SpatialDataPolygon): empty polygon of Gelderland
-	#' 	
+	#' 			Return:
+	#' 				Empty raster with resolution of 100 by 100 and RD_New projection
 	#first make a random matrix
 	xy <- matrix(nrow = 881, ncol = 1263)
 

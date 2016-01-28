@@ -126,4 +126,4 @@ getData <- function(){
 	# clip and save municipalities shapefiles
 	shplist_mun = list.files(path='./Rawdata/municipalities/uitvoer_shape', pattern= '^.*\\.shp$')
 	lapply(shplist_mun, function(x) clip_save_mun_shp(shp=paste0('Rawdata/municipalities/uitvoer_shape/',x),clip=Gelderland,name=substr(x,1,nchar(x)-4)))
-	}
+}
