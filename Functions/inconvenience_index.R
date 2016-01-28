@@ -1,5 +1,3 @@
-
-
 # create demographic index function
 inconvenience_index <- function(railway_weight,roads_weight){
 	#' Create inconvenience index raster with a Multi-Criteria Analyses
@@ -39,9 +37,11 @@ inconvenience_index <- function(railway_weight,roads_weight){
 	railway_result <- railway_weight * railway_buffer1
 	roads_result <- roads_weight * roads_buffer1
 	
+	# Combine and standardise the rasters
 	Raster_inconvenience_features <- overlay(railway_result, roads_result, fun=function(x,y){x+y}) 
 	inconvenience_index <- standardise(Raster_inconvenience_features)
 	
+	# Mask the raster
 	inconvenience_index <- mask(inconvenience_index, gelderlandraster)
 	
 	return(inconvenience_index)

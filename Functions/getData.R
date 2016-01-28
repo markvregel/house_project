@@ -1,5 +1,6 @@
 getData <- function(){
 	#' Download the data if necessary, unzips it, makes the temporary raster, the NDVI raster and the railways and roads raster.
+	#'
 	
 	source("Functions/pre-processing.R")
 	source("Functions/downloadlist.R")
