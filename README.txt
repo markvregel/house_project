@@ -38,4 +38,4 @@ Two example outputs:
 
 http://rpubs.com/JosGoris/greenfingers (person who likes nature and water)
 
-http://rpubs.com/markvregel/Brick_Face (Old man who find facilities important.)
+http://rpubs.com/markvregel/Brick_Face (Old man who finds facilities important.)
