@@ -1,11 +1,5 @@
 visualise_results <- function(subindex_stack,final_index,mun_index){
-	#' Visualizes the output rasters and the municipalities
-	#' 		Args:
-	#' 				The rasters of the subindexes
-	#' 				The final_index raster
-	#' 				The municipality vector
-	
-#'function that visialises the results
+#'function that Visualizes the output rasters and the municipalities
 #'		Arg:
 #'			subindex_stack(Rasterstack): stack of sub-indexes
 #'			final_index(Rasterlayer): raster of final index
@@ -25,7 +19,7 @@ visualise_results <- function(subindex_stack,final_index,mun_index){
 	# create leaflet with rasterdatasets and city polygons
 	results_vis <-leaflet() %>%   addTiles(group = "Openstreetmap") %>%
 		addProviderTiles("Stamen.TonerLite", group = "Stamen Toner Lite") %>%
-		addProviderTiles("Stamen.Watercolor", group = "Stamen Watercolor") %>%
+		addProviderTiles("Esri.WorldImagery", group = "Esri WorldImagery") %>%
 		addRasterImage(final_index, colors = pal1, opacity = 1,group = "Final score") %>%
 		addRasterImage(subindex_stack[['Public.Transport.Index']], colors = pal1, opacity = 1,group = "Public Transport") %>%
 		addRasterImage(subindex_stack[['Inconvenience.Index']], colors = pal1, opacity = 1,group = "Inconvenience") %>%
@@ -46,7 +40,7 @@ visualise_results <- function(subindex_stack,final_index,mun_index){
 							title = "Score per Municipality",position = 'bottomright') %>% #legend of Municipalities
 		# Layers control
 		addLayersControl(
-			baseGroups = c("Openstreetmap", "Stamen Toner Lite", "Stamen Watercolor"),
+			baseGroups = c("Openstreetmap", "Stamen Toner Lite", "Esri WorldImagery"),
 			overlayGroups = c("Final score", "Municipalities","Public Transport", 
 												"Inconvenience","Facilities","Demographic","NDVI","Water"),
 			options = layersControlOptions(collapsed = FALSE),position='bottomleft')
